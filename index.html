@@ -114,11 +114,15 @@
     /* ========== MAIN CONTAINER ========== */
     main {
       flex: 1;
-      padding: 0 16px 110px 16px;
+      padding: 0 16px 120px 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    main > * {
+      flex-shrink: 0 !important;
     }
 
     /* User Greeting Row */
@@ -179,30 +183,42 @@
       display: flex;
       gap: 14px;
       overflow-x: auto;
+      overflow-y: visible;
       scroll-snap-type: x mandatory;
-      padding: 2px 0;
+      padding: 6px 2px 14px 2px;
+      flex-shrink: 0;
+      -webkit-overflow-scrolling: touch;
     }
     .card {
       background: #FFFFFF;
       border-radius: 26px;
-      padding: 22px 20px;
+      padding: 20px;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.035);
       border: 1px solid #F0F2F5;
       scroll-snap-align: start;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
     .account-card {
       width: 82vw;
-      max-width: 340px;
+      max-width: 320px;
+      height: 195px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .acc-content-top {
+      display: flex;
+      flex-direction: column;
+      min-height: 86px;
     }
     .acc-badge {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      height: 24px;
     }
     .acc-icon {
       width: 20px;
@@ -215,18 +231,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .acc-title {
       font-size: 14px;
       font-weight: 600;
       color: #333D4B;
+      white-space: nowrap;
     }
     .acc-balance {
       font-size: 26px;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: #191F28;
-      margin: 8px 0 24px 0;
+      margin-top: 4px;
+      display: flex;
+      align-items: baseline;
     }
     .acc-balance span.unit {
       font-size: 20px;
@@ -235,20 +255,80 @@
     }
     .btn-orange {
       width: 100%;
+      height: 48px;
       background: #F05A22;
       color: #FFFFFF;
       border: none;
-      padding: 14px 0;
       border-radius: 16px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       box-shadow: 0 4px 12px rgba(240, 90, 34, 0.28);
       transition: all 0.15s ease;
+      margin-top: auto;
+      flex-shrink: 0;
     }
     .btn-orange:active {
       background: #DE4D17;
       transform: scale(0.98);
+    }
+
+    /* Dark Mode Auto Support */
+    @media (prefers-color-scheme: dark) {
+      html, body {
+        background-color: #181A20 !important;
+        color: #F9FAFB !important;
+      }
+      header {
+        background: #181A20 !important;
+      }
+      .logo-ok { color: #FFFFFF !important; }
+      .logo-bank { color: #E5E7EB !important; }
+      .header-icons { color: #E5E7EB !important; }
+      .card {
+        background: #23262F !important;
+        border-color: #2F333F !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25) !important;
+      }
+      .banner-box {
+        background-color: #381E19 !important;
+        color: #FF7B66 !important;
+      }
+      .user-greeting { color: #FFFFFF !important; }
+      .btn-att {
+        background: #23262F !important;
+        border-color: #2F333F !important;
+        color: #E5E7EB !important;
+      }
+      .acc-title { color: #D1D5DB !important; }
+      .acc-balance { color: #FFFFFF !important; }
+      .row-label { color: #E5E7EB !important; }
+      .row-value { color: #FFFFFF !important; }
+      .card-divider { background: #2F333F !important; }
+      .roulette-title { color: #FFFFFF !important; }
+      .rec-header h2 { color: #FFFFFF !important; }
+      .rec-header p { color: #9CA3AF !important; }
+      nav.tabbar {
+        background: #1C1E24 !important;
+        border-top-color: #2B2E38 !important;
+      }
+      .tab-btn { color: #828A99 !important; }
+      .tab-btn.active { color: #FFFFFF !important; }
+      .bottom-sheet { background: #23262F !important; color: #FFFFFF !important; }
+      .dialog-card { background: #23262F !important; color: #FFFFFF !important; }
+      .modal-title { color: #FFFFFF !important; }
+      .input-field {
+        background: #181A20 !important;
+        border-color: #2F333F !important;
+        color: #FFFFFF !important;
+      }
+      .tag-btn {
+        background: #2F333F !important;
+        color: #E5E7EB !important;
+      }
     }
 
     /* Point / Coupon / Roulette Card */
@@ -621,7 +701,7 @@
     <div class="carousel-container no-scrollbar">
       <!-- Main Card -->
       <div class="card account-card">
-        <div>
+        <div class="acc-content-top">
           <div class="acc-badge">
             <div class="acc-icon">₩</div>
             <div class="acc-title">OK읏맨 서포터즈통장</div>
@@ -635,9 +715,13 @@
 
       <!-- Secondary Card (Peeking) -->
       <div class="card account-card">
-        <div>
-          <div style="font-size: 13px; color: #8B95A1; font-weight: 600;">쉽고 빠르게</div>
-          <div style="font-size: 22px; font-weight: 800; color: #191F28; margin: 4px 0 20px 0;">OK대출</div>
+        <div class="acc-content-top">
+          <div class="acc-badge">
+            <div class="acc-title" style="font-size: 13px; color: #8B95A1; font-weight: 600;">쉽고 빠르게</div>
+          </div>
+          <div class="acc-balance" style="font-size: 24px;">
+            <span>OK대출</span>
+          </div>
         </div>
         <button class="btn-orange" onclick="showToast('간편 대출 신청 페이지입니다.')">대출 신청</button>
       </div>
